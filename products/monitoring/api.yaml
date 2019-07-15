@@ -1045,3 +1045,173 @@ objects:
         description: Values for all of the labels listed in the associated
           monitored resource descriptor. For example, Compute Engine VM instances use
           the labels "project_id", "instance_id", and "zone".
+  - !ruby/object:Api::Resource
+    name: 'Dashboard'
+    base_url: projects/{{project}}/dashboards
+    self_link: "{{name}}"
+    update_verb: :PATCH
+    update_mask: true
+    description: |
+      Dashboards typically display a set of related charts that you want to have available at all times.
+    references: !ruby/object:Api::Resource::ReferenceLinks
+      guides:
+        'Official Documentation':
+          'https://cloud.google.com/monitoring/charts/'
+      api: 'https://cloud.google.com/monitoring/api/ref_v3/rest/v3/'
+    properties:
+      - !ruby/object:Api::Type::String
+        name: name
+        description: |
+          The unique resource name for this dashboard.
+          Its syntax is: projects/[PROJECT_ID]/dashboards/[DASHBOARD_ID]
+        output: true
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: |
+          A short name or phrase used to identify the dashboard. in To avoid
+          confusion, don't use the same display name for multiple policies in
+          the same project. The name is limited to 512 Unicode characters.
+        required: true
+      - !ruby/object:Api::Type::NestedObject
+        name: root
+        description: |
+          Root container for the dashboard definition.
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: gridLayout
+            description: |
+              Dashboard layout with individual charts.
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: columns
+                description: |
+                  Number of columns for dashboard layout (1-6).
+                values:
+                  - 1
+                  - 2
+                  - 3
+                  - 4
+                  - 5
+                  - 6
+              - !ruby/object:Api::Type::Array
+                name: widgets
+                description: |
+                  Array of individual charts.
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'displayName'
+                      description: |
+                        Chart title.
+                    - !ruby/object:Api::Type::NestedObject
+                      name: xyChart
+                      description: |
+                        Chart definition.
+                      required: true
+                      properties:
+                        - !ruby/object:Api::Type::Array
+                          name: dataSets
+                          description: |
+                            Array of individual charts.
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: timeSeriesFilter
+                              description: |
+                                Graph filter.
+                              output: true
+                              properties:
+                                - !ruby/object:Api::Type::String
+                                  name: filter
+                                  description: |
+                                    Chart filter rule definition.
+                                - !ruby/object:Api::Type::Enum
+                                  name: perSeriesAligner
+                                  description: |
+                                    The approach to be used to align
+                                    individual time series. Not all
+                                    alignment functions may be applied
+                                    to all time series.
+                                  values:
+                                    - :ALIGN_NONE
+                                    - :ALIGN_DELTA
+                                    - :ALIGN_RATE
+                                    - :ALIGN_INTERPOLATE
+                                    - :ALIGN_NEXT_OLDER
+                                    - :ALIGN_MIN
+                                    - :ALIGN_MAX
+                                    - :ALIGN_MEAN
+                                    - :ALIGN_COUNT
+                                    - :ALIGN_SUM
+                                    - :ALIGN_STDDEV
+                                    - :ALIGN_COUNT_TRUE
+                                    - :ALIGN_COUNT_FALSE
+                                    - :ALIGN_FRACTION_TRUE
+                                    - :ALIGN_PERCENTILE_99
+                                    - :ALIGN_PERCENTILE_95
+                                    - :ALIGN_PERCENTILE_50
+                                    - :ALIGN_PERCENTILE_05
+                                    - :ALIGN_PERCENT_CHANGE
+                                - !ruby/object:Api::Type::Enum
+                                  name: crossSeriesReducer
+                                  description: |
+                                    The approach to be used to combine
+                                    time series. Not all reducer
+                                    functions may be applied to all
+                                    time series, depending on the
+                                    metric type and the value type of
+                                    the original time series.
+                                  values:
+                                    - :REDUCE_NONE
+                                    - :REDUCE_MEAN
+                                    - :REDUCE_MIN
+                                    - :REDUCE_MAX
+                                    - :REDUCE_SUM
+                                    - :REDUCE_STDDEV
+                                    - :REDUCE_COUNT
+                                    - :REDUCE_COUNT_TRUE
+                                    - :REDUCE_COUNT_FALSE
+                                    - :REDUCE_FRACTION_TRUE
+                                    - :REDUCE_PERCENTILE_99
+                                    - :REDUCE_PERCENTILE_95
+                                    - :REDUCE_PERCENTILE_50
+                                    - :REDUCE_PERCENTILE_05
+                                - !ruby/object:Api::Type::Array
+                                  name: groupByFields
+                                  description: |
+                                    The set of fields to preserve when
+                                    crossSeriesReducer is specified.
+                                  item_type: Api::Type::String
+                                - !ruby/object:Api::Type::String
+                                  name: minAlignmentPeriod
+                                  description: |
+                                    The alignment period for per-time
+                                    series alignment. If present,
+                                    alignmentPeriod must be at least
+                                    60 seconds.
+                                - !ruby/object:Api::Type::String
+                                  name: unitOverride
+                                  description: |
+                                    Override displayed units.
+                            - !ruby/object:Api::Type::Enum
+                              name: plotType
+                              description: |
+                                Type of chart.
+                              values:
+                                - :STACKED_AREA
+                                - :STACKED_BAR
+                                - :HEATMAP
+                                - :LINE
+                        - !ruby/object:Api::Type::NestedObject
+                          name: y1axis
+                          description: |
+                            Y axis properties.
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: label
+                              description: |
+                                Y Axis label.
+                        - !ruby/object:Api::Type::String
+                          name: timeshiftDuration
+                          description: |
+                            Time shift duration.
