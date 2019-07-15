@@ -1100,7 +1100,7 @@ objects:
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
                     - !ruby/object:Api::Type::String
-                      name: 'displayName'
+                      name: 'title'
                       description: |
                         Chart title.
                     - !ruby/object:Api::Type::NestedObject
@@ -1119,7 +1119,6 @@ objects:
                               name: timeSeriesFilter
                               description: |
                                 Graph filter.
-                              output: true
                               properties:
                                 - !ruby/object:Api::Type::String
                                   name: filter
@@ -1203,7 +1202,7 @@ objects:
                                 - :HEATMAP
                                 - :LINE
                         - !ruby/object:Api::Type::NestedObject
-                          name: y1axis
+                          name: y1Axis
                           description: |
                             Y axis properties.
                           properties:

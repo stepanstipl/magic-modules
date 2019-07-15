@@ -113,6 +113,13 @@ overrides: !ruby/object:Overrides::ResourceOverrides
       resourceGroup.groupId: !ruby/object:Overrides::Terraform::PropertyOverride
         custom_expand: "templates/terraform/custom_expand/resource_from_self_link.go.erb"
         custom_flatten: "templates/terraform/custom_flatten/group_id_to_name.erb"
+  Dashboard: !ruby/object:Overrides::Terraform::ResourceOverride
+    id_format: "{{name}}"
+    import_format: ["{{name}}"]
+    mutex: dashboard/{{project}}
+    custom_code: !ruby/object:Provider::Terraform::CustomCode
+      custom_import: templates/terraform/custom_import/self_link_as_name.erb
+      post_create: templates/terraform/post_create/set_computed_name.erb
 
 files: !ruby/object:Provider::Config::Files
   # These files have templating (ERB) code that will be run.
